@@ -13,7 +13,8 @@ import pandas as pd
 from geopy.geocoders import Nominatim, GoogleV3
 import folium
 
-inputfile=str(sys.argv[1])
+#inputfile=str(sys.argv[1])
+inputfile = 'ESW_data.xlsx'
 # namecolumn=str(sys.argv[2])
 
 io = pd.read_excel(inputfile, sheet_name='Sheet1')
@@ -35,18 +36,11 @@ io['longitude'] = geolocate_column.apply(get_longitude)
 #io.to_csv('geocoding-output-helper.csv')
 
 #initalizing folium map object as m and using the geographic mean of the data points to center the viewpoint; basemap defaults to OSM
-m = folium.Map(location=[io['latitude'].mean(), io['longitude'].mean()],tiles="Mapbox Bright", zoom_start=4)
+m = folium.Map(location=[io['latitude'].mean(), io['longitude'].mean()],tiles="OpenStreetMap", zoom_start=4)
 for i in range(0,len(io)):
     folium.Marker([io.iloc[i]['latitude'], io.iloc[i]['longitude']],
                   popup=io.iloc[i]['Area_Name']).add_to(m)
 # Save it as html
 m.save('index.html')
-
-# %%
-# =============================================================================
-# = DATA TRANSFORMATION =
-# =======================
-
-       
 
 
